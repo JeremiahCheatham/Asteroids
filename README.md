@@ -12,4 +12,5 @@ Escape - Quits and closes game.\
 F - Enables showFPS.
 
 # Ports
+[C - SDL2](C-SDL2)\
 [Go - SDL2](Go-SDL2)

@@ -1,7 +1,6 @@
 #include "initialize.h"
 
 bool game_initilize(struct Game *g) {
-    (void)g;
 
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO)) {
         fprintf(stderr, "Error initializing SDL: %s\n", SDL_GetError());

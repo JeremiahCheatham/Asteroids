@@ -1,6 +1,5 @@
 #include "shot.h"
 
-
 bool shot_initialize(struct Shot **shot, SDL_Renderer *renderer, SDL_Texture *image) {
     *shot = calloc(1, sizeof(struct Shot));
     if (!*shot) {
@@ -25,9 +24,10 @@ bool shot_initialize(struct Shot **shot, SDL_Renderer *renderer, SDL_Texture *im
     return false;
 }
 
-void shot_free(struct Shot *s) {
-    if (s) {
-        free(s);
+void shot_free(struct Shot **shot) {
+    if (*shot) {
+        free(*shot);
+        *shot = NULL;
     }
 }
 

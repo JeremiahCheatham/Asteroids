@@ -20,11 +20,15 @@ bool message_new(struct Message **message, SDL_Renderer *renderer) {
     return false;
 }
 
-void message_free(struct Message *m) {
-    if (m) {
-        TTF_CloseFont(m->font);
-        SDL_DestroyTexture(m->image);
-        free(m);
+void message_free(struct Message **message) {
+    if (*message) {
+        TTF_CloseFont((*message)->font);
+        (*message)->font = NULL;
+        SDL_DestroyTexture((*message)->image);
+        (*message)->image = NULL;
+        (*message)->renderer = NULL;
+        free(*message);
+        *message = NULL;
     }
 }
 

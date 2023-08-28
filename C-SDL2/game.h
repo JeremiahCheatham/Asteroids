@@ -45,7 +45,7 @@ struct Game {
 };
 
 bool game_new(struct Game **game);
-void game_free(struct Game *g);
+void game_free(struct Game **game);
 bool game_reset(struct Game *g);
 bool game_shoot(struct Game *g);
 Uint32 game_mode_event(uint interval, void *param);

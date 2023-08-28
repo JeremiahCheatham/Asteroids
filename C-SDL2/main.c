@@ -11,7 +11,7 @@ int main() {
         err = game_run(game);
     }
 
-    game_free(game);
+    game_free(&game);
 
     return err;
 }

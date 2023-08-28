@@ -3,10 +3,10 @@ CFLAGS_BASE		= `pkg-config --cflags sdl2 SDL2_image SDL2_ttf SDL2_mixer` -std=gn
 CFLAGS_RELEASE	= -O2
 CFLAGS_DEV		= -O0 -ggdb3 -Wall -Wextra -Wwrite-strings -Werror -Wunused -Wuninitialized \
                  -Wconversion -Wshadow -Wformat -Wmissing-prototypes -Wmissing-declarations \
-				 -Wfloat-equal -Wsign-compare -fsanitize=address
+				 -Wfloat-equal -Wsign-compare -fsanitize=address -fsanitize-address-use-after-scope
 CFLAGS			= $(CFLAGS_BASE) $(CFLAGS_DEV)
 LDLIBS_BASE		= `pkg-config --libs sdl2 SDL2_image SDL2_ttf SDL2_mixer` -lm
-LDLIBS_DEV      = -fsanitize=address
+LDLIBS_DEV      = -fsanitize=address -fsanitize-address-use-after-scope
 LDLIBS          = $(LDLIBS_BASE) $(LDLIBS_DEV)
 TARGET			= Asteroids
 

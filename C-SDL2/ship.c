@@ -27,9 +27,14 @@ bool ship_new(struct Ship **ship, SDL_Renderer *renderer, SDL_Texture *image1, S
     return false;
 }
 
-void ship_free(struct Ship *s) {
-    if (s) {
-        free(s);
+void ship_free(struct Ship **ship) {
+    if (*ship) {
+        (*ship)->renderer = NULL;
+        (*ship)->image1 = NULL;
+        (*ship)->image2 = NULL;
+        (*ship)->keystate = NULL;
+        free(*ship);
+        *ship = NULL;
     }
 }
 

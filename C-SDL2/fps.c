@@ -18,9 +18,10 @@ bool fps_new(struct Fps **fps) {
     return false;
 }
 
-void fps_free(struct Fps *f) {
-    if (f) {
-        free(f);
+void fps_free(struct Fps **fps) {
+    if (*fps) {
+        free(*fps);
+        *fps = NULL;
     }
 }
 

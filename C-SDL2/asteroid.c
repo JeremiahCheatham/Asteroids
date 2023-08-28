@@ -24,7 +24,7 @@ bool asteroid_new(
     a->y_vel = y_vel;
     a->size = size;
 
-    for (unsigned short i = 0; i < sizeof(a->images) / sizeof(a->images[0]); i++) {
+    for (unsigned short i = 0; i < LEN(a->images); i++) {
         if (SDL_QueryTexture(a->images[i], NULL, NULL, &a->rects[i].w, &a->rects[i].h)) {
             fprintf(stderr, "Error while querying texture: %s\n", SDL_GetError());
             return true;
@@ -55,6 +55,55 @@ bool asteroid_new(
     }
 
     return false;
+}
+
+bool asteroids_generate(
+    struct Asteroid **asteroids,
+    SDL_Renderer *renderer,
+    SDL_Texture *large_image,
+    SDL_Texture *medium_image,
+    SDL_Texture *small_image,
+    unsigned int count
+) {
+    asteroids_free(asteroids);
+
+    for (unsigned int i = 0; i < count; i++) {
+        struct Asteroid *asteroid = calloc(1, sizeof(struct Asteroid));
+        if (asteroid == NULL) {
+            fprintf(stderr, "Error in calloc of new asteroid.\n");
+            return true;
+        }
+
+        if (asteroid_new(
+            asteroid,
+            renderer,
+            large_image,
+            medium_image,
+            small_image, 0, 0, 0, 0, 0, 0)
+        ) {
+            return true;
+        }
+        asteroid->next = *asteroids;
+        if (*asteroids) {
+            (*asteroids)->previous = asteroid;
+        }
+        *asteroids = asteroid;
+    }
+    return false;
+}
+
+void asteroids_free(struct Asteroid **asteroids) {
+    struct Asteroid *a = *asteroids;
+    while (a) {
+        for (unsigned short i = 0; i < LEN(a->images); i++) {
+            a->images[i] =  NULL;
+            a->renderer = NULL;
+        }
+        struct Asteroid *next = a->next;
+        free(a);
+        a = next;
+    }
+    *asteroids = NULL;
 }
 
 void asteroid_reset(struct Asteroid *a) {
@@ -146,37 +195,44 @@ double asteriod_radius(struct Asteroid *a) {
     return a->radii[a->size];
 }
 
-void asteroid_update(struct Asteroid *a, double dt) {
-    a->angle += a->angle_rate * dt;
-    if (a->angle > 360) {
-        a->angle -= 360;
-    } else if (a->angle < 0) {
-        a->angle += 360;
+void asteroids_update(struct Asteroid *a, double dt) {
+    while (a != NULL) {
+        a->angle += a->angle_rate * dt;
+        if (a->angle > 360) {
+            a->angle -= 360;
+        } else if (a->angle < 0) {
+            a->angle += 360;
+        }
+
+        a->x_pos += a->x_vel * dt;
+        a->y_pos += a->y_vel * dt;
+
+        if (a->x_pos + a->rects[a->size].w < 0) {
+            a->x_pos = WINDOW_WIDTH;
+        } else if (a->x_pos > WINDOW_WIDTH) {
+            a->x_pos = -a->rects[a->size].w;
+        }
+
+        if (a->y_pos + a->rects[a->size].h < 0) {
+            a->y_pos = WINDOW_HEIGHT;
+        } else if (a->y_pos > WINDOW_HEIGHT) {
+            a->y_pos = -a->rects[a->size].h;
+        }
+
+        a->rects[a->size].x = (int)(a->x_pos + 0.5);
+        a->rects[a->size].y = (int)(a->y_pos + 0.5);
+
+        a = a->next;
     }
-
-    a->x_pos += a->x_vel * dt;
-    a->y_pos += a->y_vel * dt;
-
-    if (a->x_pos + a->rects[a->size].w < 0) {
-        a->x_pos = WINDOW_WIDTH;
-    } else if (a->x_pos > WINDOW_WIDTH) {
-        a->x_pos = -a->rects[a->size].w;
-    }
-
-    if (a->y_pos + a->rects[a->size].h < 0) {
-        a->y_pos = WINDOW_HEIGHT;
-    } else if (a->y_pos > WINDOW_HEIGHT) {
-        a->y_pos = -a->rects[a->size].h;
-    }
-
-    a->rects[a->size].x = (int)(a->x_pos + 0.5);
-	a->rects[a->size].y = (int)(a->y_pos + 0.5);
 }
 
-bool asteroid_draw(struct Asteroid *a) {
-    if ( SDL_RenderCopyEx(a->renderer, a->images[a->size], NULL, &a->rects[a->size], a->angle, NULL, SDL_FLIP_NONE)) {
-        fprintf(stderr, "Error while rendering texture: %s\n", SDL_GetError());
-        return true;
+bool asteroids_draw(struct Asteroid *a) {
+    while (a != NULL) {
+        if ( SDL_RenderCopyEx(a->renderer, a->images[a->size], NULL, &a->rects[a->size], a->angle, NULL, SDL_FLIP_NONE)) {
+            fprintf(stderr, "Error while rendering texture: %s\n", SDL_GetError());
+            return true;
+        }
+        a = a->next;
     }
 
     return false;

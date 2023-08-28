@@ -20,7 +20,7 @@ struct Shot {
 };
 
 bool shot_initialize(struct Shot **shot, SDL_Renderer *renderer, SDL_Texture *image);
-void shot_free(struct Shot *s);
+void shot_free(struct Shot **shot);
 void shot_new(struct Shot *s, double x, double y, double angle, double radius);
 double shot_left(struct Shot *s);
 double shot_right(struct Shot *s);

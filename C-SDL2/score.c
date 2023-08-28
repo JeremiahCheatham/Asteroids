@@ -1,6 +1,5 @@
 #include "score.h"
 
-
 bool score_new(struct Score **score, SDL_Renderer *renderer) {
 
     *score = calloc(1, sizeof(struct Score));
@@ -24,11 +23,15 @@ bool score_new(struct Score **score, SDL_Renderer *renderer) {
     return false;
 }
 
-void score_free(struct Score *s) {
-    if (s) {
-        TTF_CloseFont(s->font);
-        SDL_DestroyTexture(s->image);
-        free(s);
+void score_free(struct Score **score) {
+    if (*score) {
+        TTF_CloseFont((*score)->font);
+        (*score)->font = NULL;
+        SDL_DestroyTexture((*score)->image);
+        (*score)->image = NULL;
+        (*score)->renderer = NULL;
+        free(*score);
+        *score = NULL;
     }
 }
 

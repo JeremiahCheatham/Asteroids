@@ -1,7 +1,6 @@
 #include "game.h"
 #include "initialize.h"
 #include "load_media.h"
-#include "asteroids.h"
 
 bool game_new(struct Game **game) {
     *game = calloc(1, sizeof(struct Game));
@@ -49,36 +48,54 @@ bool game_new(struct Game **game) {
     return false;
 }
 
-void game_free(struct Game *g) {
+void game_free(struct Game **game) {
+    struct Game *g = *game;
     for (unsigned short i = 0; i < LEN(g->shots); i++) {
-        shot_free(g->shots[i]);
+        shot_free(&g->shots[i]);
     }
 
-    fps_free(g->fps);
-    ship_free(g->ship);
-    message_free(g->message);
-    score_free(g->score);
+    fps_free(&g->fps);
+    ship_free(&g->ship);
+    message_free(&g->message);
+    score_free(&g->score);
     asteroids_free(&g->asteroids);
 
     Mix_FreeChunk(g->thruster_sound);
+    g->thruster_sound = NULL;
     Mix_FreeChunk(g->laser_sound);
+    g->laser_sound = NULL;
     Mix_FreeChunk(g->collide_sound);
+    g->collide_sound = NULL;
     Mix_FreeChunk(g->boom_sound);
+    g->boom_sound = NULL;
     Mix_FreeMusic(g->falling_music);
+    g->falling_music = NULL;
     SDL_DestroyTexture(g->shot_image);
+    g->shot_image = NULL;
     SDL_DestroyTexture(g->icon_image);
+    g->icon_image = NULL;
     SDL_DestroyTexture(g->asteroid_small_image);
+    g->asteroid_small_image = NULL;
     SDL_DestroyTexture(g->asteroid_medium_image);
+    g->asteroid_medium_image = NULL;
     SDL_DestroyTexture(g->asteroid_large_image);
+    g->asteroid_large_image = NULL;
     SDL_DestroyTexture(g->ship_image1);
+    g->ship_image1 = NULL;
     SDL_DestroyTexture(g->ship_image2);
+    g->ship_image2 = NULL;
     SDL_DestroyTexture(g->background_image);
+    g->background_image = NULL;
     SDL_DestroyRenderer(g->renderer);
+    g->renderer = NULL;
     SDL_DestroyWindow(g->window);
+    g->window = NULL;
     TTF_Quit();
     Mix_Quit();
     SDL_Quit();
     free(g);
+    g = NULL;
+    *game = NULL;
 }
 
 bool game_reset(struct Game *g) {

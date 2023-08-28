@@ -15,7 +15,7 @@ struct Fps {
 };
 
 bool fps_new(struct Fps **fps);
-void fps_free(struct Fps *f);
+void fps_free(struct Fps **fps);
 void fps_toggle_display(struct Fps *f);
 Uint32 fps_time_since(Uint32 last_time, Uint32 *new_last_time);
 double fps_update(struct Fps *f);

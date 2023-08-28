@@ -13,7 +13,7 @@ struct Score {
 };
 
 bool score_new(struct Score **score, SDL_Renderer *renderer);
-void score_free(struct Score *s);
+void score_free(struct Score **score);
 bool score_reset(struct Score *s);
 bool score_update(struct Score *s);
 bool score_increment(struct Score *s, uint new_score);

@@ -23,7 +23,7 @@ $(BUILD_DIR)/%.o: %.c %.h | $(BUILD_DIR)
 $(TARGET): $(OBJS)
 	$(CC) $(LDLIBS) $^ -o $@
 
-.PHONY: all rebuild release run clean
+.PHONY: all release run clean
 
 all: $(TARGET)
 

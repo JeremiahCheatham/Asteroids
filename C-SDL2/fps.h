@@ -10,7 +10,7 @@ struct Fps {
     double carry_delay;
     double delta_time;
     Uint32 fps_last_time;
-    uint fps_counter;
+    Uint32 fps_counter;
     bool fps_display;
 };
 

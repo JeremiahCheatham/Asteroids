@@ -32,7 +32,7 @@ void message_free(struct Message **message) {
     }
 }
 
-bool message_update_level(struct Message *m, uint level) {
+bool message_update_level(struct Message *m, Uint32 level) {
     int length = snprintf(NULL, 0, "Level: %d", level) + 1;
     char level_str[length];
     snprintf(level_str, (size_t)length, "Level: %d", level);

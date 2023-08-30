@@ -77,7 +77,7 @@ bool score_update(struct Score *s) {
     return false;
 }
 
-bool score_increment(struct Score *s, uint new_score) {
+bool score_increment(struct Score *s, Uint32 new_score) {
     s->score += new_score;
     if (score_update(s)) {
         return true;

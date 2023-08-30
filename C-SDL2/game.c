@@ -137,7 +137,7 @@ bool game_shoot(struct Game *g) {
     return false;
 }
 
-Uint32 game_mode_event(uint interval, void *param) {
+Uint32 game_mode_event(Uint32 interval, void *param) {
     (void)interval;
     (void)param;
     SDL_Event event;
@@ -229,7 +229,7 @@ bool check_ship_collisions(struct Game *g) {
 
 bool lives_draw(struct Game *g) {
     if (g->lives > 0) {
-        for (uint i = 0; i < g->lives; i++) {
+        for (Uint32 i = 0; i < g->lives; i++) {
             g->icon_rect.x = (int)(i * 30 + 10);
             if ( SDL_RenderCopy(g->renderer, g->icon_image, NULL, &g->icon_rect)) {
                 fprintf(stderr, "Error while rendering texture: %s\n", SDL_GetError());
@@ -245,7 +245,7 @@ bool check_shot_collision(struct Game *g) {
     bool hit = false;
     while (a != NULL) {
         hit = false;
-        for (uint i = 0; i < LEN(g->shots); i++) {
+        for (Uint32 i = 0; i < LEN(g->shots); i++) {
             struct Shot *s = g->shots[i];
             if (!s->alive) {
                 continue;

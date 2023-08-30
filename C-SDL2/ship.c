@@ -49,7 +49,7 @@ void ship_reset(struct Ship *s) {
     ship_set_immunity(s);
 }
 
-Uint32 ship_immunity_event(uint interval, void *param) {
+Uint32 ship_immunity_event(Uint32 interval, void *param) {
     (void)interval;
     (void)param;
     SDL_Event event;

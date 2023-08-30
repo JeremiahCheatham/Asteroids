@@ -27,7 +27,7 @@ struct Ship {
 bool ship_new(struct Ship **ship, SDL_Renderer *renderer, SDL_Texture *image1, SDL_Texture *image2);
 void ship_free(struct Ship **ship);
 void ship_reset(struct Ship *s);
-Uint32 ship_immunity_event(uint interval, void *param);
+Uint32 ship_immunity_event(Uint32 interval, void *param);
 void ship_set_immunity(struct Ship *s);
 double ship_left(struct Ship *s);
 double ship_right(struct Ship *s);

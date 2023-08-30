@@ -1,5 +1,5 @@
 CC				?= gcc
-CFLAGS_BASE		= `pkg-config --cflags sdl2 SDL2_image SDL2_ttf SDL2_mixer` -std=gnu99
+CFLAGS_BASE		= `pkg-config --cflags sdl2 SDL2_image SDL2_ttf SDL2_mixer` -std=c99
 CFLAGS_RELEASE	= -O2
 CFLAGS_DEV		= -O0 -ggdb3 -Wall -Wextra -Wwrite-strings -Werror -Wunused -Wuninitialized \
                  -Wconversion -Wshadow -Wformat -Wmissing-prototypes -Wmissing-declarations \
@@ -23,7 +23,7 @@ $(BUILD_DIR)/%.o: %.c %.h | $(BUILD_DIR)
 $(TARGET): $(OBJS)
 	$(CC) $(LDLIBS) $^ -o $@
 
-.PHONY: all release run clean
+.PHONY: all rebuild release run clean
 
 all: $(TARGET)
 

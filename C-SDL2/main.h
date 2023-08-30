@@ -21,7 +21,11 @@
 #define SCORE_FONT_SIZE 20
 #define MESSAGE_FONT_SIZE 100
 
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
 // Length of array macro.
 #define LEN(x) (sizeof(x)/sizeof(x[0]))
 
-#endif // MAIN_H
+#endif

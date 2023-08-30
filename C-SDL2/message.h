@@ -13,7 +13,7 @@ struct Message {
 
 bool message_new(struct Message **message, SDL_Renderer *renderer);
 void message_free(struct Message **message);
-bool message_update_level(struct Message *m, uint level);
+bool message_update_level(struct Message *m, Uint32 level);
 bool message_update(struct Message *m, const char* text);
 bool message_draw(struct Message *m);
 

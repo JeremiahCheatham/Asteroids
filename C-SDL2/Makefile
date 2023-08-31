@@ -7,8 +7,8 @@ CFLAGS_RELEASE		= -O2
 
 ifeq ($(OS),Windows_NT)
 	CFLAGS_DEV	= -O0 -ggdb3 -Wall -Wextra -Wwrite-strings -Werror -Wunused -Wuninitialized \
-                 -Wconversion -Wshadow -Wformat -Wmissing-prototypes -Wmissing-declarations \
-				 -Wfloat-equal -Wsign-compare
+                 	-Wconversion -Wshadow -Wformat -Wmissing-prototypes -Wmissing-declarations \
+			-Wfloat-equal -Wsign-compare
 	LDLIBS_BASE	= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 	LDLIBS_DEV  	=
 	CLEAN 		= del /f $(TARGET).exe & if exist $(BUILD_DIR) rmdir /s /q $(BUILD_DIR)
